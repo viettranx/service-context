@@ -19,7 +19,7 @@ const (
 type Component interface {
 	ID() string
 	InitFlags()
-	Activate() error
+	Activate(ServiceContext) error
 	Stop() error
 }
 
@@ -96,7 +96,7 @@ func (s *serviceCtx) Load() error {
 	s.logger.Infoln("Service context is loading...")
 
 	for _, c := range s.components {
-		if err := c.Activate(); err != nil {
+		if err := c.Activate(s); err != nil {
 			return err
 		}
 	}

@@ -96,12 +96,12 @@ func (gdb *gormDB) isDisabled() bool {
 	return gdb.dsn == ""
 }
 
-func (gdb *gormDB) Activate() error {
+func (gdb *gormDB) Activate(_ sctx.ServiceContext) error {
 	gdb.logger = sctx.GlobalLogger().GetLogger(gdb.id)
 
 	dbType := getDBType(gdb.dbType)
 	if dbType == GormDBTypeNotSupported {
-		return errors.New("Database type not supported.")
+		return errors.WithStack(errors.New("Database type not supported."))
 	}
 
 	gdb.logger.Info("Connecting to database...")

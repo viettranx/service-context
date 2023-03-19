@@ -186,7 +186,7 @@ func (al *appLogger) InitFlags() {
 	flag.StringVar(&al.logLevel, "log-level", al.cfg.DefaultLevel, "Log level: panic | fatal | error | warn | info | debug | trace")
 }
 
-func (al *appLogger) Activate() error {
+func (al *appLogger) Activate(_ ServiceContext) error {
 	lv := mustParseLevel(al.logLevel)
 	al.logger.SetLevel(lv)
 
