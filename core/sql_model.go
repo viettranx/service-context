@@ -9,6 +9,16 @@ type SQLModel struct {
 	UpdatedAt *time.Time `json:"updated_at,omitempty" gorm:"column:updated_at;"  db:"updated_at"`
 }
 
+func NewSQLModel() SQLModel {
+	now := time.Now().UTC()
+
+	return SQLModel{
+		Id:        0,
+		CreatedAt: &now,
+		UpdatedAt: &now,
+	}
+}
+
 func (sqlModel *SQLModel) Mask(dbType int) {
 	uid := NewUID(uint32(sqlModel.Id), dbType, 1)
 	sqlModel.FakeId = &uid
