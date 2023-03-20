@@ -19,7 +19,7 @@ func NewSQLModel() SQLModel {
 	}
 }
 
-func (sqlModel *SQLModel) Mask(dbType int) {
-	uid := NewUID(uint32(sqlModel.Id), dbType, 1)
+func (sqlModel *SQLModel) Mask(objectId int) {
+	uid := NewUID(uint32(sqlModel.Id), objectId, 1)
 	sqlModel.FakeId = &uid
 }
