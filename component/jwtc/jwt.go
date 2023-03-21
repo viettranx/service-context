@@ -88,10 +88,10 @@ func (j *jwtx) IssueToken(ctx context.Context, id, sub string) (token string, ex
 	return tokenSignedStr, j.expireTokenInSeconds, nil
 }
 
-func (j *jwtx) ParseToken(ctx context.Context, tokenString string) (id string, sub string, err error) {
-	var claims jwt.RegisteredClaims
+func (j *jwtx) ParseToken(ctx context.Context, tokenString string) (claims *jwt.RegisteredClaims, err error) {
+	var rc jwt.RegisteredClaims
 
-	token, err := jwt.ParseWithClaims(tokenString, &claims, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &rc, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
@@ -100,8 +100,8 @@ func (j *jwtx) ParseToken(ctx context.Context, tokenString string) (id string, s
 	})
 
 	if !token.Valid {
-		return "", "", errors.WithStack(err)
+		return nil, errors.WithStack(err)
 	}
 
-	return claims.ID, claims.Subject, nil
+	return &rc, nil
 }
