@@ -4,22 +4,22 @@ import "context"
 
 const KeyRequester = "requester"
 
-type TokenPayload struct {
-	UId int `json:"user_id"`
-}
-
-func (p TokenPayload) UserId() int {
-	return p.UId
-}
-
 type Requester interface {
-	GetUserId() int
-	GetRole() string
-	GetStatus() string
+	GetUserId() string
+	GetTokenId() string
 }
 
-func IsAdmin(requester Requester) bool {
-	return requester.GetRole() == "admin" || requester.GetRole() == "mod"
+type requesterData struct {
+	UserId string `json:"user_id"`
+	Tid    string `json:"tid"`
+}
+
+func (r *requesterData) GetUserId() string {
+	return r.UserId
+}
+
+func (r *requesterData) GetTokenId() string {
+	return r.Tid
 }
 
 func GetRequester(ctx context.Context) Requester {
