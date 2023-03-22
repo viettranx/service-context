@@ -36,3 +36,7 @@ func GetRequester(ctx context.Context) Requester {
 
 	return nil
 }
+
+func ContextWithRequester(ctx context.Context, requester Requester) context.Context {
+	return context.WithValue(ctx, KeyRequester, requester)
+}
