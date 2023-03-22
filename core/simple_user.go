@@ -12,7 +12,7 @@ func (SimpleUser) TableName() string {
 	return "users"
 }
 
-func NewSimpleUser(id int, lastName, firstName string, avatar *Image) SimpleUser {
+func NewSimpleUser(id int, firstName, lastName string, avatar *Image) SimpleUser {
 	return SimpleUser{
 		SQLModel:  SQLModel{Id: id},
 		LastName:  lastName,
