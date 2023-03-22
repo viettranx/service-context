@@ -11,3 +11,12 @@ type SimpleUser struct {
 func (SimpleUser) TableName() string {
 	return "users"
 }
+
+func NewSimpleUser(id int, lastName, firstName string, avatar *Image) SimpleUser {
+	return SimpleUser{
+		SQLModel:  SQLModel{Id: id},
+		LastName:  lastName,
+		FirstName: firstName,
+		Avatar:    avatar,
+	}
+}

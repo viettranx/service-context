@@ -5,17 +5,24 @@ import "context"
 const KeyRequester = "requester"
 
 type Requester interface {
-	GetUserId() string
+	GetSubject() string
 	GetTokenId() string
 }
 
 type requesterData struct {
-	UserId string `json:"user_id"`
-	Tid    string `json:"tid"`
+	Sub string `json:"user_id"`
+	Tid string `json:"tid"`
 }
 
-func (r *requesterData) GetUserId() string {
-	return r.UserId
+func NewRequester(sub, tid string) *requesterData {
+	return &requesterData{
+		Sub: sub,
+		Tid: tid,
+	}
+}
+
+func (r *requesterData) GetSubject() string {
+	return r.Sub
 }
 
 func (r *requesterData) GetTokenId() string {
