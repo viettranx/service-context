@@ -59,7 +59,7 @@ func NewServiceContext(opts ...Option) ServiceContext {
 	sv.cmdLine = newFlagSet(sv.name, flag.CommandLine)
 	sv.parseFlags()
 
-	sv.logger = defaultLogger.GetLogger("serviceCtx")
+	sv.logger = defaultLogger.GetLogger(sv.name)
 
 	return sv
 }
