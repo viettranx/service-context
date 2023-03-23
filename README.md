@@ -120,7 +120,7 @@ SIMPLE_VALUE="Hello World" ./app
 
 You will see `Hello World` on your console.
 
-### Why I should use the ServiceContext?
+### Why should I use the ServiceContext?
 
 When your service growths, a lot of components are required. More components more configurations and more ENVs to manage. That's why ServiceContext plays its role.
 
