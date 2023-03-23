@@ -23,7 +23,7 @@ func main() {
 	const compId = "gin"
 
 	serviceCtx := sctx.NewServiceContext(
-		sctx.WithName("Simple GIN HTTP Service"),
+		sctx.WithName("simple-gin-http"),
 		sctx.WithComponent(ginc.NewGin(compId)),
 	)
 
@@ -36,9 +36,8 @@ func main() {
 	router := comp.GetRouter()
 	router.Use(gin.Recovery(), gin.Logger())
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "pong"})
-	})
+	// Demo serve a handler with service-context
+	router.GET("/demo", demoHdl(serviceCtx))
 
 	logger := serviceCtx.Logger("service")
 
@@ -80,4 +79,13 @@ func main() {
 
 	_ = serviceCtx.Stop()
 	logger.Info("Server exited")
+}
+
+func demoHdl(serviceCtx sctx.ServiceContext) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		logger := serviceCtx.Logger("demo.logger")
+		logger.Infof("Service %s is running with % env\n", serviceCtx.GetName(), serviceCtx.EnvName())
+
+		c.JSON(http.StatusOK, gin.H{"data": true})
+	}
 }

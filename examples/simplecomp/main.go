@@ -5,20 +5,20 @@ import (
 	"log"
 )
 
-type CanGetValue interface {
-	GetValue() string
-}
-
 func main() {
 	const compId = "foo"
 
 	serviceCtx := sctx.NewServiceContext(
-		sctx.WithName("Simple Component"),
+		sctx.WithName("simple-component"),
 		sctx.WithComponent(NewSimpleComponent(compId)),
 	)
 
 	if err := serviceCtx.Load(); err != nil {
 		log.Fatal(err)
+	}
+
+	type CanGetValue interface {
+		GetValue() string
 	}
 
 	comp := serviceCtx.MustGet(compId).(CanGetValue)
