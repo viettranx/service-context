@@ -3,13 +3,14 @@ package gormc
 import (
 	"flag"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/pkg/errors"
 	sctx "github.com/viettranx/service-context"
 	"github.com/viettranx/service-context/component/gormc/dialets"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"strings"
-	"time"
 )
 
 type GormDBType int
@@ -118,7 +119,16 @@ func (gdb *gormDB) Activate(_ sctx.ServiceContext) error {
 }
 
 func (gdb *gormDB) Stop() error {
-	return nil
+	/**
+	From version 1.20, Jinzhu (GORM author) decided eliminate Close() method because GORM supports connection pooling.
+	And best practice is open connection once and reuse it until the program exits.
+	But some cases, we need to close connection manually. For that case, we can use this method.
+	**/
+	db, err := gdb.db.DB()
+	if err != nil {
+		return err
+	}
+	return db.Close()
 }
 
 func (gdb *gormDB) GetDB() *gorm.DB {
